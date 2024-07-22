@@ -120,6 +120,6 @@ generate_button.grid(column=2, row=3, stick=W)
 
 # Add password button
 add_button = Button(text="Add", width=25, command=save)
-add_button.grid(column=1, row=5, sticky=W)
+add_button.grid(column=1, row=4, sticky=W)
 
 window.mainloop()
