@@ -1,6 +1,6 @@
 # Password manager
 
-A simple password manager with a GUI created in Python using [TKinter](https://docs.python.org/3/library/tkinter.html).
+A simple password manager with a GUI created in Python using [Tkinter](https://docs.python.org/3/library/tkinter.html).
 
 Inspired by the project for days 29-30 of the course: [100 Days of Python](https://100daysofpython.dev/).
 
