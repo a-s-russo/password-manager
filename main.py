@@ -8,26 +8,62 @@ import pyperclip
 
 
 # -------------------------- SEARCH PASSWORDS ------------------------- #
+def get_entry(website):
+    try:
+        with open('data.json', 'r') as file:
+            data = json.load(file)
+            entry = data[website]
+    except FileNotFoundError:
+        return None, None
+    except KeyError:
+        return None, None
+    else:
+        email = entry['email']
+        password = entry['password']
+        return email, password
+
+
 def search():
     website = website_entry.get()
     if website != '':
-        try:
-            with open('data.json', 'r') as file:
-                data = json.load(file)
-                entry = data[website]
-        except FileNotFoundError:
-            messagebox.showinfo(title='File not found', message='No existing data file found.')
-        except KeyError:
+        email, password = get_entry(website)
+        if email is None and password is None:
+            messagebox.showinfo(title='Entry not found',
+                                message='No existing website entry found.')
+        else:
+            pyperclip.copy(password)
+            messagebox.showinfo(title=website, message=f'Email: {email}\nPassword: {
+            password}\n\nPassword copied to the clipboard.')
+
+
+# -------------------------- DELETE PASSWORD -------------------------- #
+def delete():
+    website = website_entry.get()
+    if website != '':
+        email, password = get_entry(website)
+        if email is None and password is None:
             messagebox.showinfo(title='Entry not found', message='No existing website entry found.')
         else:
-            email = entry['email']
-            password = entry['password']
-            messagebox.showinfo(title=website, message=f'Email: {email}\nPassword: {password}')
+            entry_ok = messagebox.askokcancel(title=website,
+                                              message=f'Details found: \n\n'
+                                                      f'Email: {email} \n'
+                                                      f'Password: {password} \n\n'
+                                                      f'Ok to delete existing entry?\n')
+            if entry_ok:
+                with open('data.json', 'r') as file:
+                    data = json.load(file)
+                    del data[website]
+                with open('data.json', 'w') as file:
+                    json.dump(data, file, indent=4)
+                # website_entry.delete(0, END)
 
 
 # ------------------------- GENERATE PASSWORD ------------------------- #
+
+
 def generate():
-    random_letters = [choice(string.ascii_letters) for _ in range(randint(8, 10))]
+    random_letters = [choice(string.ascii_letters)
+                      for _ in range(randint(8, 10))]
     random_symbols = [choice(string.digits) for _ in range(randint(2, 4))]
     random_numbers = [choice(string.punctuation) for _ in range(randint(2, 4))]
     password_list = random_letters + random_symbols + random_numbers
@@ -48,15 +84,15 @@ def save():
             'password': password
         }
     }
-
     if website == '' or email == '' or password == '':
-        messagebox.showerror(title='Invalid input', message="Please don't leave any fields empty!")
+        messagebox.showerror(title='Invalid input',
+                             message="No field can be empty.")
     else:
         entry_ok = messagebox.askokcancel(title=website,
-                                          message=f'These are the details entered: \n\n'
+                                          message=f'Details entered: \n\n'
                                                   f'Email: {email} \n'
                                                   f'Password: {password} \n\n'
-                                                  f'Is it ok to save?')
+                                                  f'Ok to save new entry/overwrite existing entry?\n')
         if entry_ok:
             try:
                 with open('data.json', 'r') as file:
@@ -73,7 +109,7 @@ def save():
                 password_entry.delete(0, END)
 
 
-# ---------------------------- UI SETUP ------------------------------- #
+# ------------------------------ UI SETUP ----------------------------- #
 window = Tk()
 window.title("Password Manager")
 window.config(padx=50, pady=50, bg='white')
@@ -94,8 +130,12 @@ website_entry.grid(column=1, row=1, sticky=W)
 website_entry.focus()
 
 # Search button
-generate_button = Button(text="Search", command=search, width=15)
+generate_button = Button(text="Search", command=search, width=7)
 generate_button.grid(column=2, row=1, sticky=W)
+
+# Delete button
+delete_button = Button(text="Delete", command=delete, width=6)
+delete_button.grid(column=3, row=1, sticky=W)
 
 # Email/username label
 email_label = Label(text='Email/Username:', bg='white')
@@ -116,7 +156,7 @@ password_entry.grid(column=1, row=3, sticky=W)
 
 # Generate password button
 generate_button = Button(text="Generate Password", width=15, command=generate)
-generate_button.grid(column=2, row=3, stick=W)
+generate_button.grid(column=2, row=3, columnspan=2, stick=W)
 
 # Add password button
 add_button = Button(text="Add", width=25, command=save)
