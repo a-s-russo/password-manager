@@ -33,7 +33,7 @@ def search():
         else:
             pyperclip.copy(password)
             messagebox.showinfo(title=website, message=f'Email: {email}\nPassword: {
-            password}\n\nPassword copied to the clipboard.')
+                password}\n\nPassword copied to the clipboard.')
 
 
 # -------------------------- DELETE PASSWORD -------------------------- #
@@ -42,13 +42,14 @@ def delete():
     if website != '':
         email, password = get_entry(website)
         if email is None and password is None:
-            messagebox.showinfo(title='Entry not found', message='No existing website entry found.')
+            messagebox.showinfo(title='Entry not found',
+                                message='No existing website entry found.')
         else:
             entry_ok = messagebox.askokcancel(title=website,
                                               message=f'Details found: \n\n'
-                                                      f'Email: {email} \n'
-                                                      f'Password: {password} \n\n'
-                                                      f'Ok to delete existing entry?\n')
+                                              f'Email: {email} \n'
+                                              f'Password: {password} \n\n'
+                                              f'Ok to delete existing entry?\n')
             if entry_ok:
                 with open('data.json', 'r') as file:
                     data = json.load(file)
@@ -90,9 +91,9 @@ def save():
     else:
         entry_ok = messagebox.askokcancel(title=website,
                                           message=f'Details entered: \n\n'
-                                                  f'Email: {email} \n'
-                                                  f'Password: {password} \n\n'
-                                                  f'Ok to save new entry/overwrite existing entry?\n')
+                                          f'Email: {email} \n'
+                                          f'Password: {password} \n\n'
+                                          f'Ok to save new entry/overwrite existing entry?\n')
         if entry_ok:
             try:
                 with open('data.json', 'r') as file:
