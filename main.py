@@ -110,10 +110,18 @@ def save():
                 password_entry.delete(0, END)
 
 
+# ---------------------------- CLEAR FIELDS --------------------------- #
+def clear():
+    website_entry.delete(0, END)
+    email_entry.delete(0, END)
+    password_entry.delete(0, END)
+
+
 # ------------------------------ UI SETUP ----------------------------- #
 window = Tk()
 window.title("Password Manager")
 window.config(padx=50, pady=50, bg='white')
+window.rowconfigure(4, minsize=70)
 
 # Padlock image
 canvas = Canvas(width=200, height=200, bg='white', highlightthickness=0)
@@ -131,12 +139,12 @@ website_entry.grid(column=1, row=1, sticky=W)
 website_entry.focus()
 
 # Search button
-generate_button = Button(text="Search", command=search, width=7)
+generate_button = Button(text="Search", command=search, width=6)
 generate_button.grid(column=2, row=1, sticky=W)
 
 # Delete button
 delete_button = Button(text="Delete", command=delete, width=6)
-delete_button.grid(column=3, row=1, sticky=W)
+delete_button.grid(column=3, row=1, sticky=E)
 
 # Email/username label
 email_label = Label(text='Email/Username:', bg='white')
@@ -162,5 +170,9 @@ generate_button.grid(column=2, row=3, columnspan=2, stick=W)
 # Add password button
 add_button = Button(text="Add", width=25, command=save)
 add_button.grid(column=1, row=4, sticky=W)
+
+# Clear fields button
+clear_button = Button(text="Clear All Fields", width=15, command=clear)
+clear_button.grid(column=2, row=4, columnspan=2, stick=W)
 
 window.mainloop()
