@@ -16,7 +16,7 @@ Saved passwords are stored in a `data.json` file in the same folder (an example 
 
 ## Features
 
-- Save email/username and passwords for websites.
+- Save email address and password for websites.
 - Generate random passwords (and copy to the clipboard automatically).
 - Search for and delete existing entries.
 

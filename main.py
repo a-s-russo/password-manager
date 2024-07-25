@@ -117,6 +117,13 @@ def clear():
     password_entry.delete(0, END)
 
 
+# -------------------------- RESTORE DEFAULT -------------------------- #
+def restore():
+    default_email = default_email_entry.get()
+    email_entry.delete(0, END)
+    email_entry.insert(0, default_email)
+
+
 # ------------------------------ UI SETUP ----------------------------- #
 window = Tk()
 window.title("Password Manager")
@@ -146,14 +153,18 @@ generate_button.grid(column=2, row=1, sticky=W)
 delete_button = Button(text="Delete", command=delete, width=6)
 delete_button.grid(column=3, row=1, sticky=E)
 
-# Email/username label
-email_label = Label(text='Email/Username:', bg='white')
+# Email label
+email_label = Label(text='Email:', bg='white')
 email_label.grid(column=0, row=2, sticky=W)
 
-# Email/username entry
+# Email entry
 email_entry = Entry(width=30)
 email_entry.grid(column=1, row=2, sticky=W)
 email_entry.insert(0, 'me@email.com')
+
+# Restore default button
+restore_button = Button(text="Restore Default", width=15, command=restore)
+restore_button.grid(column=2, row=2, columnspan=2, stick=W)
 
 # Password label
 password_label = Label(text='Password:', bg='white')
@@ -174,5 +185,14 @@ add_button.grid(column=1, row=4, sticky=W)
 # Clear fields button
 clear_button = Button(text="Clear All Fields", width=15, command=clear)
 clear_button.grid(column=2, row=4, columnspan=2, stick=W)
+
+# Default email label
+default_label = Label(text='Default Email:', bg='white')
+default_label.grid(column=0, row=5, sticky=W)
+
+# Default email entry
+default_email_entry = Entry(width=30)
+default_email_entry.grid(column=1, row=5, sticky=W)
+default_email_entry.insert(0, 'me@email.com')
 
 window.mainloop()
